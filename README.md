@@ -2,8 +2,8 @@ Activity 12: Statistical reasoning 4: prediction and evaluation
 ================
 
 Welcome! This is the fourth statistical reasoning activity. The goals of
-this activity are to understand how to evaluate models and use models to
-make predictions. Specifically, you will:
+this activity are to understand how to evaluate models predictive
+accuracy and use models to make predictions. Specifically, you will:
 
 1.  Run and interpret multiple models on the same dataset and evaluate
     them to see which is best supported using WAIC and PSIS.
@@ -106,15 +106,18 @@ for each predictor.
 
 ------------------------------------------------------------------------
 
-## 1.2 Run and interpret two different multiple regressions with latitude and **mean** temperatures
+## 1.2 Run and interpret three multiple regressions with latitude and **mean** temperatures
 
-Let’s run two regressions and compare their results. We will start by
+Let’s run three regressions and compare their results. We will start by
 looking at how body size varies with latitude plus each of the mean
-temperature values. Since these are intertidal estuarine sites, either
-air or water temperatures (or both) may be important.
+temperature values separately, then together. Since these are intertidal
+estuarine sites, crabs are exposed to water for part of the day and air
+for another part; air and/or water temperatures may be important. The
+models will be:
 
 - size \~ latitude + water_temp
 - size \~ latitude + air_temp
+- size \~ latitude + water_temp + air_temp
 
 ------------------------------------------------------------------------
 
@@ -138,6 +141,8 @@ m.crab.lat.water <-
       # Save the fitted model object as output - helpful for reloading in the output later
       file = "temporary/m.crab.lat.water")
 ```
+
+Now look at the output:
 
 ``` r
 summary(m.crab.lat.water)
@@ -163,6 +168,24 @@ summary(m.crab.lat.water)
     Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
     and Tail_ESS are effective sample size measures, and Rhat is the potential
     scale reduction factor on split chains (at convergence, Rhat = 1).
+
+``` r
+plot(m.crab.lat.water)
+```
+
+![](README_files/figure-commonmark/unnamed-chunk-6-1.png)
+
+------------------------------------------------------------------------
+
+#### Q1.2 Interpret the output
+
+Interpret your model by answering:
+
+1.  What are the effects of your predictors? Remember to describe the
+    effect using the units to make it biologically meaningful.
+2.  Are the effects reasonably different from zero? How do you know?
+
+------------------------------------------------------------------------
 
 ### size \~ latitude + mean air temp
 
@@ -210,7 +233,17 @@ summary(m.crab.lat.air)
     and Tail_ESS are effective sample size measures, and Rhat is the potential
     scale reduction factor on split chains (at convergence, Rhat = 1).
 
-### Q1.3
+------------------------------------------------------------------------
+
+#### Q1.3 Interpret the output
+
+Interpret your model by answering:
+
+1.  What are the effects of your predictors? Remember to describe the
+    effect using the units to make it biologically meaningful.
+2.  Are the effects reasonably different from zero? How do you know?
+
+------------------------------------------------------------------------
 
 ### size \~ latitude + mean water + mean air temp
 
@@ -259,16 +292,48 @@ summary(m.crab.lat.air.water)
     and Tail_ESS are effective sample size measures, and Rhat is the potential
     scale reduction factor on split chains (at convergence, Rhat = 1).
 
-## 1.3 WAIC and PSIS functions
+------------------------------------------------------------------------
 
-Now we are going to compare models using the Pareto Smoothed Importance
-Sampling (**PSIS**) and Watanabe–Akaike information criterion
+#### Q1.4 Interpret the output
+
+Interpret your model by answering:
+
+1.  What are the effects of your predictors? Remember to describe the
+    effect using the units to make it biologically meaningful.
+2.  Are the effects reasonably different from zero? How do you know?
+
+------------------------------------------------------------------------
+
+#### Q1.5 How do the models differ in their estimates?
+
+In 2-4 sentences, compare the three models’ estimates of the effect of
+latitude, water temp, and air temp; did estimates change across
+different models? Stay the same? Change in whether or not they are
+different from zero?
+
+------------------------------------------------------------------------
+
+## 1.3 Compare models using WAIC and PSIS
+
+We just compared the models in terms of what values they provided for
+the estimates of the effects of `latitude`, `water_temp`, and
+`air_temp`. Now we are going to compare models using the Pareto Smoothed
+Importance Sampling (**PSIS**) and Watanabe–Akaike information criterion
 (**WAIC**). Remember, both of these metrics will tell us about a model’s
-out of sample predictive skill. Lower values = better!
+out of sample predictive skill. Lower values = better! A major reason we
+due this is to avoid *overfitting*, where more complex models with lots
+of parameters are un-generalizable to out of sample data (for instance,
+the final panel of the XKCD comic below).
 
-First, let’s look at the PSIS output
+![XKCD_curve_fitting](photos/XKCD_curve_fitting.png)
+
+First, let’s look at the PSIS output from the three models. Remember,
+lower values are better, and more complicated models (models with more
+parameters) will be “punished”, since more parameters risks overfitting.
 
 ``` r
+# Look at "leave one out" results for all three models
+# size ~ lat + mean water
 loo(m.crab.lat.water)
 ```
 
@@ -287,6 +352,7 @@ loo(m.crab.lat.water)
     See help('pareto-k-diagnostic') for details.
 
 ``` r
+# size ~ lat + mean air
 loo(m.crab.lat.air)
 ```
 
@@ -305,6 +371,7 @@ loo(m.crab.lat.air)
     See help('pareto-k-diagnostic') for details.
 
 ``` r
+# size ~ lat + mean water + mean air
 loo(m.crab.lat.air.water)
 ```
 
@@ -322,7 +389,23 @@ loo(m.crab.lat.air.water)
     All Pareto k estimates are good (k < 0.7).
     See help('pareto-k-diagnostic') for details.
 
+The first thing to look for to assess the leave one out method is the
+Pareto k estimate. For us, it gives the helpful message:
+`All Pareto k estimates are good (k < 0.7)`.
+
+The last row is our PSIS value. Remember, lower = better. As we can see,
+the `size ~ latitude + mean water + mean air` model had the lowers PSIS
+value, despite having the most parameters. This indicates that the extra
+parameter made up for the punishment by adding much more predictive
+power.
+
+------------------------------------------------------------------------
+
+Now we do the same for WAIC:
+
 ``` r
+# Look at "leave one out" results for all three models
+# size ~ lat + mean water
 waic(m.crab.lat.water)
 ```
 
@@ -335,6 +418,7 @@ waic(m.crab.lat.water)
     waic        1925.8 27.2
 
 ``` r
+# size ~ lat + mean air
 waic(m.crab.lat.air)
 ```
 
@@ -347,6 +431,7 @@ waic(m.crab.lat.air)
     waic        1914.6 26.9
 
 ``` r
+# size ~ lat + mean water + mean air
 waic(m.crab.lat.air.water)
 ```
 
@@ -357,6 +442,68 @@ waic(m.crab.lat.air.water)
     elpd_waic   -945.3 14.2
     p_waic         5.0  0.5
     waic        1890.6 28.4
+
+### Q1.6 Which model has the “best” WAIC value?
+
+Rememeber, lower is better!
+
+------------------------------------------------------------------------
+
+Importantly, we want both the PSIS results and the WAIC results to
+align. In this case, they do, which is a good sign for our models.
+
+------------------------------------------------------------------------
+
+## 1.4 Repeat with the sd of water and air temp instead of mean temp
+
+Now it’s your turn! In this section, repeat what we just did but with
+the standard deviation (sd) of water and air temperature instead of the
+mean air and water temperature.
+
+The three models should be:
+
+- size \~ latitude + water_temp_sd
+- size \~ latitude + air_temp_sd
+- size \~ latitude + water_temp_sd + air_temp_sd
+
+------------------------------------------------------------------------
+
+### Q1.7 Run all three models
+
+Run and store all three models. Remember to change the name of 1) the
+data that the model output is stored as and 2) the output file name
+
+------------------------------------------------------------------------
+
+### Q1.8 Interpret all three models
+
+Interpret all three models by answering:
+
+1.  What are the effects of your predictors? Remember to describe the
+    effect using the units to make it biologically meaningful.
+2.  Are the effects reasonably different from zero? How do you know?
+
+Please write 2-3 sentences for each model
+
+------------------------------------------------------------------------
+
+### Q1.9 How do the models differ in their estimates?
+
+In 2-4 sentences, compare the three models’ estimates of the effect of
+latitude, water temp sd, and air temp sd; did estimates change across
+different models? Stay the same? Change in whether or not they are
+different from zero?
+
+------------------------------------------------------------------------
+
+### Q1.10 Calculate and compare PSIS and AIC values for each model
+
+Calculate and compare the PSIS and AIC values for each model and answer:
+
+1.  Which model has the lower PSIS?
+2.  Which model has the lower AIC?
+3.  Do PSIS and AIC values agree on which model has the best out of
+    sample prediction?
 
 ------------------------------------------------------------------------
 
