@@ -1,0 +1,51 @@
+---
+title: "Activity 12: Statistical reasoning 4: prediction and evaluation"
+subtitle: Feb. 16th, 2026, Calvin Munson
+format: gfm
+execute:
+  warning: false
+editor: source
+---
+
+Welcome! This is the fourth statistical reasoning activity. The goals of this activity are to understand how to evaluate models and use models to make predictions. Specifically, you will:
+
+1.    Run and interpret multiple models on the same dataset and evaluate them to see which is best supported.
+2.    Use model output to predict how the system will behave with new data.
+
+------------------------------------------------------------------------
+
+You will submit one output for this activity:
+
+1.  A **PDF** of a rendered Quarto document with all of your R code. Please create a new Quarto document (e.g. don't use this `README.qmd`) and include all of the code that appears in this document, your own code, and **answers to all of the questions** in the "Q#" sections. Submit this PDF through Gradescope.
+
+A reminder: **Please label the code** in your final submission in two ways: 
+
+1. denote your answers to each question using headers that correspond to the question you're answering, and 
+2. thoroughly "comment" your code: remember, this means annotating your code directly by typing descriptions of what each line does after a `#`. This will help future you!
+
+------------------------------------------------------------------------
+
+Let's start by reading in the relevant packages
+
+```{r}
+library(brms) # for statistics
+library(tidyverse) # for data wrangling
+library(lterdatasampler)
+```
+
+
+# 1. 
+
+--------
+
+
+### Render to PDF
+
+When you have finished, remember to pull, stage, commit, and push with GitHub:
+
+-   Pull to check for updates to the remote branch
+-   Stage your edits (after saving your document!) by checking the documents you'd like to push
+-   Commit your changes with a commit message
+-   Push your changes to the remote branch
+
+Then submit the well-labeled PDF on Gradescope. Thanks!
