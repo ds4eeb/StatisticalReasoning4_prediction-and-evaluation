@@ -52,17 +52,52 @@ It is common in the field of ecology to have multiple candidate models of how a 
 Both metrics tell us how well the model will predict data it wasn't trained on, which is important for thinking about how well the model might predict new data (as in the next section!).
 
 ---------
-## 1.1 Run and interpret two different multiple regressions
 
-Let's remind ourselves of the columns in the crab data: 
+In this section, we will run and interpret two multiple regressions to try and understand what influences crab body width in mm (`size`). Let's remind ourselves of the columns in the crab data: 
 
 ```{r}
 colnames(pie_crab)
 ```
 
-We have multiple variables that may be relevant here. Air and water temperature data, plus the standard devaitions of each (representing variability and perhaps seasonality). Let's run two regressions and compare them: let's compare a model with latitude and mean water temp, and another with mean air temp. Since these are intertidal estuarine sites, either (or both) may be important.
+We have multiple variables that may be relevant to crab body size here. Mean air and water temperature data, plus the standard deviations of each (representing variability and perhaps seasonality in temperature). 
 
-### size ~ latitude + WATER temp
+---------
+
+## 1.1 Create hypotheses for how each variable may affect crab size
+
+Create four separate hypotheses describing how each predictor would be associated with larger or smaller crabs. Why? Please write 2-3 sentences for each predictor.
+
+--------
+
+### Q1.1a How might *mean* **water** temperature affect crab size?
+
+
+--------
+
+### Q1.1b How might *mean* **air** temperature affect crab size?
+
+
+--------
+
+### Q1.1c How might the *sd* of **water** temperature affect crab size?
+
+
+--------
+
+### Q1.1d How might the *sd* of **air** temperature affect crab size?
+
+--------------
+
+## 1.2 Run and interpret two different multiple regressions with latitude and **mean** temperatures
+
+Let's run two regressions and compare their results. We will start by looking at how body size varies with latitude plus each of the mean temperature values. Since these are intertidal estuarine sites, either air or water temperatures (or both) may be important.
+
+*   size ~ latitude + water_temp
+*   size ~ latitude + air_temp
+
+---------
+
+### size ~ latitude + mean water temp
 
 ```{r}
 # latitude and water model
@@ -90,7 +125,7 @@ summary(m.crab.lat.water)
 
 
 
-### size ~ latitude + AIR temp
+### size ~ latitude + mean air temp
 
 ```{r}
 # latitude and air model
@@ -116,9 +151,10 @@ m.crab.lat.air <-
 summary(m.crab.lat.air)
 ```
 
+### Q1.3  
 
 
-### size ~ latitude + AIR AND WATER temp
+### size ~ latitude + mean water + mean air temp
 
 ```{r}
 # latitude and air model
@@ -143,19 +179,41 @@ m.crab.lat.air.water <-
 ```{r}
 summary(m.crab.lat.air.water)
 ```
-WAIC and PSIS functions
+## 1.3 WAIC and PSIS functions
+
+Now we are going to compare models using the Pareto Smoothed Importance Sampling (**PSIS**) and Watanabe–Akaike information criterion (**WAIC**). Remember, both of these metrics will tell us about a model's out of sample predictive skill. Lower values = better!
+
+First, let's look at the PSIS output
 
 ```{r}
-# WAIC for each model
-waic(m.crab.lat.air)
-waic(m.crab.lat.water)
-waic(m.crab.lat.air.water)
-
-# PSIS for each model
-loo(m.crab.lat.air)
 loo(m.crab.lat.water)
+```
+
+
+```{r}
+loo(m.crab.lat.air)
+```
+
+
+```{r}
 loo(m.crab.lat.air.water)
 ```
+
+
+```{r}
+waic(m.crab.lat.water)
+```
+
+
+```{r}
+waic(m.crab.lat.air)
+```
+
+
+```{r}
+waic(m.crab.lat.air.water)
+```
+
 
 
 

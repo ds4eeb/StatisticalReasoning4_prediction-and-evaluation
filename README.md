@@ -62,27 +62,251 @@ Both metrics tell us how well the model will predict data it wasn’t
 trained on, which is important for thinking about how well the model
 might predict new data (as in the next section!).
 
-| \## 1.1 Run and interpret two different multiple regressions                                        |
-|:----------------------------------------------------------------------------------------------------|
-| MCSE of elpd_loo is 0.0. MCSE and ESS estimates assume MCMC draws (r_eff in \[0.5, 0.8\]).          |
-| All Pareto k estimates are good (k \< 0.7). See help(‘pareto-k-diagnostic’) for details. \`\`\` ::: |
-| `{.r .cell-code} loo(m.crab.lat.water)`                                                             |
-| ::: {.cell-output .cell-output-stdout} \`\`\`                                                       |
-| Computed from 4000 by 392 log-likelihood matrix.                                                    |
-| Estimate SE elpd_loo -962.9 13.6 p_loo 3.7 0.3 looic 1925.9 27.2                                    |
+------------------------------------------------------------------------
 
-MCSE of elpd_loo is 0.0. MCSE and ESS estimates assume MCMC draws (r_eff
-in \[0.4, 0.9\]).
+In this section, we will run and interpret two multiple regressions to
+try and understand what influences crab body width in mm (`size`). Let’s
+remind ourselves of the columns in the crab data:
 
-All Pareto k estimates are good (k \< 0.7). See
-help(‘pareto-k-diagnostic’) for details.
+``` r
+colnames(pie_crab)
+```
 
-    :::
+    [1] "date"          "latitude"      "site"          "size"         
+    [5] "air_temp"      "air_temp_sd"   "water_temp"    "water_temp_sd"
+    [9] "name"         
 
-    ```{.r .cell-code}
-    loo(m.crab.lat.air.water)
+We have multiple variables that may be relevant to crab body size here.
+Mean air and water temperature data, plus the standard deviations of
+each (representing variability and perhaps seasonality in temperature).
 
-<div class="cell-output cell-output-stdout">
+------------------------------------------------------------------------
+
+## 1.1 Create hypotheses for how each variable may affect crab size
+
+Create four separate hypotheses describing how each predictor would be
+associated with larger or smaller crabs. Why? Please write 2-3 sentences
+for each predictor.
+
+------------------------------------------------------------------------
+
+### Q1.1a How might *mean* **water** temperature affect crab size?
+
+------------------------------------------------------------------------
+
+### Q1.1b How might *mean* **air** temperature affect crab size?
+
+------------------------------------------------------------------------
+
+### Q1.1c How might the *sd* of **water** temperature affect crab size?
+
+------------------------------------------------------------------------
+
+### Q1.1d How might the *sd* of **air** temperature affect crab size?
+
+------------------------------------------------------------------------
+
+## 1.2 Run and interpret two different multiple regressions with latitude and **mean** temperatures
+
+Let’s run two regressions and compare their results. We will start by
+looking at how body size varies with latitude plus each of the mean
+temperature values. Since these are intertidal estuarine sites, either
+air or water temperatures (or both) may be important.
+
+- size \~ latitude + water_temp
+- size \~ latitude + air_temp
+
+------------------------------------------------------------------------
+
+### size \~ latitude + mean water temp
+
+``` r
+# latitude and water model
+m.crab.lat.water <- 
+  brm(data = pie_crab, # Give the model the pie_crab data
+      # Choose a gaussian (normal) distribution
+      family = gaussian,
+      # Specify the model here. 
+      size ~ latitude + water_temp,
+      # Here's where you specify parameters for executing the Markov chains
+      # We're using similar to the defaults, except we set cores to 4 so the analysis runs faster than the default of 1
+      iter = 2000, warmup = 1000, chains = 4, cores = 4,
+      # Setting the "seed" determines which random numbers will get sampled.
+      # In this case, it makes the randomness of the Markov chain runs reproducible 
+      # (so that both of us get the exact same results when running the model)
+      seed = 4,
+      # Save the fitted model object as output - helpful for reloading in the output later
+      file = "temporary/m.crab.lat.water")
+```
+
+``` r
+summary(m.crab.lat.water)
+```
+
+     Family: gaussian 
+      Links: mu = identity 
+    Formula: size ~ latitude + water_temp 
+       Data: pie_crab (Number of observations: 392) 
+      Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+             total post-warmup draws = 4000
+
+    Regression Coefficients:
+               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+    Intercept    -22.88      6.89   -36.77    -9.14 1.00     1674     1632
+    latitude       0.80      0.12     0.58     1.04 1.00     1693     1657
+    water_temp     0.41      0.15     0.13     0.70 1.00     1712     1693
+
+    Further Distributional Parameters:
+          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+    sigma     2.81      0.10     2.63     3.02 1.00     2948     2214
+
+    Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+    and Tail_ESS are effective sample size measures, and Rhat is the potential
+    scale reduction factor on split chains (at convergence, Rhat = 1).
+
+### size \~ latitude + mean air temp
+
+``` r
+# latitude and air model
+m.crab.lat.air <- 
+  brm(data = pie_crab, # Give the model the pie_crab data
+      # Choose a gaussian (normal) distribution
+      family = gaussian,
+      # Specify the model here. 
+      size ~ latitude + air_temp,
+      # Here's where you specify parameters for executing the Markov chains
+      # We're using similar to the defaults, except we set cores to 4 so the analysis runs faster than the default of 1
+      iter = 2000, warmup = 1000, chains = 4, cores = 4,
+      # Setting the "seed" determines which random numbers will get sampled.
+      # In this case, it makes the randomness of the Markov chain runs reproducible 
+      # (so that both of us get the exact same results when running the model)
+      seed = 4,
+      # Save the fitted model object as output - helpful for reloading in the output later
+      file = "temporary/m.crab.lat.air")
+```
+
+``` r
+summary(m.crab.lat.air)
+```
+
+     Family: gaussian 
+      Links: mu = identity 
+    Formula: size ~ latitude + air_temp 
+       Data: pie_crab (Number of observations: 392) 
+      Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+             total post-warmup draws = 4000
+
+    Regression Coefficients:
+              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+    Intercept    77.36     18.27    41.29   113.59 1.00     1750     1802
+    latitude     -0.99      0.33    -1.66    -0.33 1.00     1750     1819
+    air_temp     -1.67      0.38    -2.40    -0.94 1.00     1755     1819
+
+    Further Distributional Parameters:
+          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+    sigma     2.77      0.10     2.58     2.98 1.00     2326     1895
+
+    Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+    and Tail_ESS are effective sample size measures, and Rhat is the potential
+    scale reduction factor on split chains (at convergence, Rhat = 1).
+
+### Q1.3
+
+### size \~ latitude + mean water + mean air temp
+
+``` r
+# latitude and air model
+m.crab.lat.air.water <- 
+  brm(data = pie_crab, # Give the model the pie_crab data
+      # Choose a gaussian (normal) distribution
+      family = gaussian,
+      # Specify the model here. 
+      size ~ latitude + air_temp + water_temp,
+      # Here's where you specify parameters for executing the Markov chains
+      # We're using similar to the defaults, except we set cores to 4 so the analysis runs faster than the default of 1
+      iter = 2000, warmup = 1000, chains = 4, cores = 4,
+      # Setting the "seed" determines which random numbers will get sampled.
+      # In this case, it makes the randomness of the Markov chain runs reproducible 
+      # (so that both of us get the exact same results when running the model)
+      seed = 4,
+      # Save the fitted model object as output - helpful for reloading in the output later
+      file = "temporary/m.crab.lat.air.water")
+```
+
+``` r
+summary(m.crab.lat.air.water)
+```
+
+     Family: gaussian 
+      Links: mu = identity 
+    Formula: size ~ latitude + air_temp + water_temp 
+       Data: pie_crab (Number of observations: 392) 
+      Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+             total post-warmup draws = 4000
+
+    Regression Coefficients:
+               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+    Intercept     77.85     17.84    43.64   113.08 1.00     2146     2041
+    latitude      -1.06      0.33    -1.70    -0.43 1.00     2124     2093
+    air_temp      -2.41      0.39    -3.18    -1.65 1.00     2018     1905
+    water_temp     0.76      0.15     0.47     1.05 1.00     2817     2513
+
+    Further Distributional Parameters:
+          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+    sigma     2.68      0.10     2.50     2.88 1.00     2954     2232
+
+    Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+    and Tail_ESS are effective sample size measures, and Rhat is the potential
+    scale reduction factor on split chains (at convergence, Rhat = 1).
+
+## 1.3 WAIC and PSIS functions
+
+Now we are going to compare models using the Pareto Smoothed Importance
+Sampling (**PSIS**) and Watanabe–Akaike information criterion
+(**WAIC**). Remember, both of these metrics will tell us about a model’s
+out of sample predictive skill. Lower values = better!
+
+First, let’s look at the PSIS output
+
+``` r
+loo(m.crab.lat.water)
+```
+
+
+    Computed from 4000 by 392 log-likelihood matrix.
+
+             Estimate   SE
+    elpd_loo   -962.9 13.6
+    p_loo         3.7  0.3
+    looic      1925.9 27.2
+    ------
+    MCSE of elpd_loo is 0.0.
+    MCSE and ESS estimates assume MCMC draws (r_eff in [0.4, 0.9]).
+
+    All Pareto k estimates are good (k < 0.7).
+    See help('pareto-k-diagnostic') for details.
+
+``` r
+loo(m.crab.lat.air)
+```
+
+
+    Computed from 4000 by 392 log-likelihood matrix.
+
+             Estimate   SE
+    elpd_loo   -957.3 13.5
+    p_loo         4.1  0.3
+    looic      1914.6 26.9
+    ------
+    MCSE of elpd_loo is 0.0.
+    MCSE and ESS estimates assume MCMC draws (r_eff in [0.5, 0.8]).
+
+    All Pareto k estimates are good (k < 0.7).
+    See help('pareto-k-diagnostic') for details.
+
+``` r
+loo(m.crab.lat.air.water)
+```
 
 
     Computed from 4000 by 392 log-likelihood matrix.
@@ -98,9 +322,41 @@ help(‘pareto-k-diagnostic’) for details.
     All Pareto k estimates are good (k < 0.7).
     See help('pareto-k-diagnostic') for details.
 
-</div>
+``` r
+waic(m.crab.lat.water)
+```
 
-:::
+
+    Computed from 4000 by 392 log-likelihood matrix.
+
+              Estimate   SE
+    elpd_waic   -962.9 13.6
+    p_waic         3.7  0.3
+    waic        1925.8 27.2
+
+``` r
+waic(m.crab.lat.air)
+```
+
+
+    Computed from 4000 by 392 log-likelihood matrix.
+
+              Estimate   SE
+    elpd_waic   -957.3 13.5
+    p_waic         4.1  0.3
+    waic        1914.6 26.9
+
+``` r
+waic(m.crab.lat.air.water)
+```
+
+
+    Computed from 4000 by 392 log-likelihood matrix.
+
+              Estimate   SE
+    elpd_waic   -945.3 14.2
+    p_waic         5.0  0.5
+    waic        1890.6 28.4
 
 ------------------------------------------------------------------------
 
