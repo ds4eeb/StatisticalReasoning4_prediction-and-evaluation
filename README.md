@@ -473,6 +473,161 @@ The three models should be:
 Run and store all three models. Remember to change the name of 1) the
 data that the model output is stored as and 2) the output file name
 
+===== START ANSWER
+
+#### size \~ latitude + water temp sd
+
+``` r
+# latitude and water model
+m.crab.lat.watersd <- 
+  brm(data = pie_crab, # Give the model the pie_crab data
+      # Choose a gaussian (normal) distribution
+      family = gaussian,
+      # Specify the model here. 
+      size ~ latitude + water_temp_sd,
+      # Here's where you specify parameters for executing the Markov chains
+      # We're using similar to the defaults, except we set cores to 4 so the analysis runs faster than the default of 1
+      iter = 2000, warmup = 1000, chains = 4, cores = 4,
+      # Setting the "seed" determines which random numbers will get sampled.
+      # In this case, it makes the randomness of the Markov chain runs reproducible 
+      # (so that both of us get the exact same results when running the model)
+      seed = 4,
+      # Save the fitted model object as output - helpful for reloading in the output later
+      file = "temporary/m.crab.lat.watersd")
+```
+
+Now look at the output:
+
+``` r
+summary(m.crab.lat.watersd)
+```
+
+     Family: gaussian 
+      Links: mu = identity 
+    Formula: size ~ latitude + water_temp_sd 
+       Data: pie_crab (Number of observations: 392) 
+      Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+             total post-warmup draws = 4000
+
+    Regression Coefficients:
+                  Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+    Intercept        -3.75      1.57    -6.85    -0.62 1.00     4342     3104
+    latitude          0.48      0.03     0.42     0.55 1.00     4924     3080
+    water_temp_sd     0.02      0.13    -0.23     0.27 1.00     3665     2473
+
+    Further Distributional Parameters:
+          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+    sigma     2.84      0.10     2.65     3.05 1.00     4179     2744
+
+    Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+    and Tail_ESS are effective sample size measures, and Rhat is the potential
+    scale reduction factor on split chains (at convergence, Rhat = 1).
+
+``` r
+plot(m.crab.lat.watersd)
+```
+
+![](README_files/figure-commonmark/unnamed-chunk-15-1.png)
+
+------------------------------------------------------------------------
+
+#### size \~ latitude + air temp sd
+
+``` r
+# latitude and air model
+m.crab.lat.airsd <- 
+  brm(data = pie_crab, # Give the model the pie_crab data
+      # Choose a gaussian (normal) distribution
+      family = gaussian,
+      # Specify the model here. 
+      size ~ latitude + air_temp_sd,
+      # Here's where you specify parameters for executing the Markov chains
+      # We're using similar to the defaults, except we set cores to 4 so the analysis runs faster than the default of 1
+      iter = 2000, warmup = 1000, chains = 4, cores = 4,
+      # Setting the "seed" determines which random numbers will get sampled.
+      # In this case, it makes the randomness of the Markov chain runs reproducible 
+      # (so that both of us get the exact same results when running the model)
+      seed = 4,
+      # Save the fitted model object as output - helpful for reloading in the output later
+      file = "temporary/m.crab.lat.airsd")
+```
+
+``` r
+summary(m.crab.lat.airsd)
+```
+
+     Family: gaussian 
+      Links: mu = identity 
+    Formula: size ~ latitude + air_temp_sd 
+       Data: pie_crab (Number of observations: 392) 
+      Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+             total post-warmup draws = 4000
+
+    Regression Coefficients:
+                Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+    Intercept      -3.20      1.38    -5.88    -0.55 1.00     5013     3188
+    latitude        0.53      0.06     0.42     0.64 1.00     2326     2388
+    air_temp_sd    -0.24      0.24    -0.70     0.24 1.00     2367     2401
+
+    Further Distributional Parameters:
+          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+    sigma     2.84      0.10     2.65     3.05 1.00     3394     2678
+
+    Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+    and Tail_ESS are effective sample size measures, and Rhat is the potential
+    scale reduction factor on split chains (at convergence, Rhat = 1).
+
+------------------------------------------------------------------------
+
+#### size \~ latitude + water temp sd + air temp sd
+
+``` r
+# latitude and air model
+m.crab.lat.airsd.watersd <- 
+  brm(data = pie_crab, # Give the model the pie_crab data
+      # Choose a gaussian (normal) distribution
+      family = gaussian,
+      # Specify the model here. 
+      size ~ latitude + air_temp_sd + water_temp_sd,
+      # Here's where you specify parameters for executing the Markov chains
+      # We're using similar to the defaults, except we set cores to 4 so the analysis runs faster than the default of 1
+      iter = 2000, warmup = 1000, chains = 4, cores = 4,
+      # Setting the "seed" determines which random numbers will get sampled.
+      # In this case, it makes the randomness of the Markov chain runs reproducible 
+      # (so that both of us get the exact same results when running the model)
+      seed = 4,
+      # Save the fitted model object as output - helpful for reloading in the output later
+      file = "temporary/m.crab.lat.airsd.watersd")
+```
+
+``` r
+summary(m.crab.lat.airsd.watersd)
+```
+
+     Family: gaussian 
+      Links: mu = identity 
+    Formula: size ~ latitude + air_temp_sd + water_temp_sd 
+       Data: pie_crab (Number of observations: 392) 
+      Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+             total post-warmup draws = 4000
+
+    Regression Coefficients:
+                  Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+    Intercept        -3.94      1.56    -7.11    -0.89 1.00     3817     3323
+    latitude          0.56      0.07     0.43     0.69 1.00     2169     2421
+    air_temp_sd      -0.42      0.31    -1.00     0.20 1.00     1936     2214
+    water_temp_sd     0.16      0.16    -0.17     0.47 1.00     2423     2358
+
+    Further Distributional Parameters:
+          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+    sigma     2.84      0.10     2.66     3.04 1.00     3267     2772
+
+    Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+    and Tail_ESS are effective sample size measures, and Rhat is the potential
+    scale reduction factor on split chains (at convergence, Rhat = 1).
+
+===== END ANSWER
+
 ------------------------------------------------------------------------
 
 ### Q1.8 Interpret all three models
@@ -485,9 +640,92 @@ Interpret all three models by answering:
 
 Please write 2-3 sentences for each model
 
+=== START ANSWER
+
+Looks like all SD estimates’ 95% CIs overlap zero… May need to rethink
+this as an example (or maybe not!)
+
+``` r
+summary(m.crab.lat.watersd)
+```
+
+     Family: gaussian 
+      Links: mu = identity 
+    Formula: size ~ latitude + water_temp_sd 
+       Data: pie_crab (Number of observations: 392) 
+      Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+             total post-warmup draws = 4000
+
+    Regression Coefficients:
+                  Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+    Intercept        -3.75      1.57    -6.85    -0.62 1.00     4342     3104
+    latitude          0.48      0.03     0.42     0.55 1.00     4924     3080
+    water_temp_sd     0.02      0.13    -0.23     0.27 1.00     3665     2473
+
+    Further Distributional Parameters:
+          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+    sigma     2.84      0.10     2.65     3.05 1.00     4179     2744
+
+    Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+    and Tail_ESS are effective sample size measures, and Rhat is the potential
+    scale reduction factor on split chains (at convergence, Rhat = 1).
+
+``` r
+summary(m.crab.lat.airsd)
+```
+
+     Family: gaussian 
+      Links: mu = identity 
+    Formula: size ~ latitude + air_temp_sd 
+       Data: pie_crab (Number of observations: 392) 
+      Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+             total post-warmup draws = 4000
+
+    Regression Coefficients:
+                Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+    Intercept      -3.20      1.38    -5.88    -0.55 1.00     5013     3188
+    latitude        0.53      0.06     0.42     0.64 1.00     2326     2388
+    air_temp_sd    -0.24      0.24    -0.70     0.24 1.00     2367     2401
+
+    Further Distributional Parameters:
+          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+    sigma     2.84      0.10     2.65     3.05 1.00     3394     2678
+
+    Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+    and Tail_ESS are effective sample size measures, and Rhat is the potential
+    scale reduction factor on split chains (at convergence, Rhat = 1).
+
+``` r
+summary(m.crab.lat.airsd.watersd)
+```
+
+     Family: gaussian 
+      Links: mu = identity 
+    Formula: size ~ latitude + air_temp_sd + water_temp_sd 
+       Data: pie_crab (Number of observations: 392) 
+      Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+             total post-warmup draws = 4000
+
+    Regression Coefficients:
+                  Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+    Intercept        -3.94      1.56    -7.11    -0.89 1.00     3817     3323
+    latitude          0.56      0.07     0.43     0.69 1.00     2169     2421
+    air_temp_sd      -0.42      0.31    -1.00     0.20 1.00     1936     2214
+    water_temp_sd     0.16      0.16    -0.17     0.47 1.00     2423     2358
+
+    Further Distributional Parameters:
+          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+    sigma     2.84      0.10     2.66     3.04 1.00     3267     2772
+
+    Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+    and Tail_ESS are effective sample size measures, and Rhat is the potential
+    scale reduction factor on split chains (at convergence, Rhat = 1).
+
+===== END ANSWER
+
 ------------------------------------------------------------------------
 
-### Q1.9 How do the models differ in their estimates?
+### Q1.9 How do the models differ in their parameter estimates?
 
 In 2-4 sentences, compare the three models’ estimates of the effect of
 latitude, water temp sd, and air temp sd; did estimates change across
@@ -500,10 +738,123 @@ different from zero?
 
 Calculate and compare the PSIS and AIC values for each model and answer:
 
-1.  Which model has the lower PSIS?
-2.  Which model has the lower AIC?
-3.  Do PSIS and AIC values agree on which model has the best out of
+1.  Are the Pareto k estimates good?
+2.  Which model has the lowest PSIS?
+3.  Which model has the lowest AIC?
+4.  Do PSIS and AIC values agree on which model has the best out of
     sample prediction?
+
+=====ANSWER
+
+PSIS:
+
+``` r
+# Look at "leave one out" results for all three models
+# size ~ lat + mean water
+loo(m.crab.lat.watersd)
+```
+
+
+    Computed from 4000 by 392 log-likelihood matrix.
+
+             Estimate   SE
+    elpd_loo   -967.1 13.3
+    p_loo         3.7  0.3
+    looic      1934.1 26.6
+    ------
+    MCSE of elpd_loo is 0.0.
+    MCSE and ESS estimates assume MCMC draws (r_eff in [0.9, 1.2]).
+
+    All Pareto k estimates are good (k < 0.7).
+    See help('pareto-k-diagnostic') for details.
+
+``` r
+# size ~ lat + mean air
+loo(m.crab.lat.airsd)
+```
+
+
+    Computed from 4000 by 392 log-likelihood matrix.
+
+             Estimate   SE
+    elpd_loo   -966.6 13.4
+    p_loo         3.5  0.3
+    looic      1933.1 26.9
+    ------
+    MCSE of elpd_loo is 0.0.
+    MCSE and ESS estimates assume MCMC draws (r_eff in [0.6, 1.1]).
+
+    All Pareto k estimates are good (k < 0.7).
+    See help('pareto-k-diagnostic') for details.
+
+``` r
+# size ~ lat + mean water + mean air
+loo(m.crab.lat.airsd.watersd)
+```
+
+
+    Computed from 4000 by 392 log-likelihood matrix.
+
+             Estimate   SE
+    elpd_loo   -967.1 13.2
+    p_loo         4.6  0.4
+    looic      1934.3 26.5
+    ------
+    MCSE of elpd_loo is 0.0.
+    MCSE and ESS estimates assume MCMC draws (r_eff in [0.5, 1.1]).
+
+    All Pareto k estimates are good (k < 0.7).
+    See help('pareto-k-diagnostic') for details.
+
+WAIC:
+
+``` r
+# Look at "leave one out" results for all three models
+# size ~ lat + mean water
+waic(m.crab.lat.watersd)
+```
+
+
+    Computed from 4000 by 392 log-likelihood matrix.
+
+              Estimate   SE
+    elpd_waic   -967.1 13.3
+    p_waic         3.7  0.3
+    waic        1934.1 26.6
+
+``` r
+# size ~ lat + mean air
+waic(m.crab.lat.airsd)
+```
+
+
+    Computed from 4000 by 392 log-likelihood matrix.
+
+              Estimate   SE
+    elpd_waic   -966.6 13.4
+    p_waic         3.5  0.3
+    waic        1933.1 26.9
+
+``` r
+# size ~ lat + mean water + mean air
+waic(m.crab.lat.airsd.watersd)
+```
+
+
+    Computed from 4000 by 392 log-likelihood matrix.
+
+              Estimate   SE
+    elpd_waic   -967.1 13.2
+    p_waic         4.6  0.4
+    waic        1934.3 26.5
+
+The crab size \~ latitude + air temp sd is marginally the best model.
+
+=====END ANSWER
+
+------------------------------------------------------------------------
+
+TAKE-HOME POINT HERE
 
 ------------------------------------------------------------------------
 

@@ -405,7 +405,7 @@ summary(m.crab.lat.airsd.watersd)
 
 ---------
 
-### Q1.9 How do the models differ in their estimates?
+### Q1.9 How do the models differ in their parameter estimates?
 
 In 2-4 sentences, compare the three models' estimates of the effect of latitude, water temp sd, and air temp sd; did estimates change across different models? Stay the same? Change in whether or not they are different from zero?
 
@@ -415,9 +415,10 @@ In 2-4 sentences, compare the three models' estimates of the effect of latitude,
 
 Calculate and compare the PSIS and AIC values for each model and answer:
 
-1.    Which model has the lower PSIS?
-2.    Which model has the lower AIC?
-3.    Do PSIS and AIC values agree on which model has the best out of sample prediction?
+1.    Are the Pareto k estimates good? 
+2.    Which model has the lowest PSIS?
+3.    Which model has the lowest AIC?
+4.    Do PSIS and AIC values agree on which model has the best out of sample prediction?
 
 =====ANSWER
 
@@ -452,6 +453,10 @@ The crab size ~ latitude + air temp sd is marginally the best model.
 =====END ANSWER
 
 ---------
+
+TAKE-HOME POINT HERE
+
+----------
 
 # 2. Predictions
 
