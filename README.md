@@ -10,6 +10,12 @@ make predictions. Specifically, you will:
 2.  Use model output to predict how the system will behave with new
     data.
 
+By making models, we are trying to approximate the processes that affect
+things in a system. It’s important to know how well our models are
+actually aligning with reality though…
+
+![XKCD-weather_balloons](photos/XKCD-weather_balloons.png)
+
 ------------------------------------------------------------------------
 
 You will submit one output for this activity:
@@ -100,9 +106,7 @@ help(‘pareto-k-diagnostic’) for details.
 
 # 2. Predictions
 
-------------------------------------------------------------------------
-
-# 3. DIY section
+![StrangePlanet_NathanPyle_weatherForecasting](photos/StrangePlanet_weatherForecasting.jpeg)
 
 ------------------------------------------------------------------------
 
