@@ -1,20 +1,14 @@
 Activity 12: Statistical reasoning 4: prediction and evaluation
 ================
 
-Welcome! This is the fourth statistical reasoning activity. The goals of
-this activity are to understand how to evaluate models predictive
-accuracy and use models to make predictions. Specifically, you will:
-
-1.  Run and interpret multiple models on the same dataset and evaluate
-    them to see which is best supported using WAIC and PSIS.
-2.  Use model output to predict how the system will behave with new
-    data.
-
-By making models, we are trying to approximate the processes that affect
-things in a system. It’s important to know how well our models are
-actually aligning with reality though…
-
 ![XKCD-weather_balloons](photos/XKCD-weather_balloons.png)
+
+Welcome! This is the fourth statistical reasoning activity. The goals of
+this activity are to understand how to evaluate and compare the
+predictive accuracy of multiple models. Specifically, you will:
+
+- Run and interpret multiple models on the same dataset and evaluate
+  them to see which is best supported using WAIC and PSIS.
 
 ------------------------------------------------------------------------
 
@@ -37,6 +31,32 @@ ways:
 
 ------------------------------------------------------------------------
 
+# 1. Practice with model comparison
+
+------------------------------------------------------------------------
+
+By making models, we are trying to approximate the processes that affect
+things in a system. It’s important to know how well our models are
+actually aligning with reality though. If we are not careful, we may
+“overfit” our models. Overfitting is when our model fits the data too
+closely, usually because we added too many parameters, which explains
+the data well but makes the model very bad at predicting future data
+(for instance, the final panel of the XKCD comic below).
+
+![XKCD_curve_fitting](photos/XKCD_curve_fitting.png)
+
+It is common in the field of ecology to have multiple candidate models
+of how a system works. How do we know which is “best” at making
+predictions? In this activity we will learn two metrics that can help:
+the Watanabe–Akaike information criterion (**WAIC**) and Pareto Smoothed
+Importance Sampling (**PSIS**).
+
+Both metrics tell us how well the model will predict data it wasn’t
+trained on, which is important for thinking about how well the model
+might predict new data that we as scientists have not encountered yet.
+
+------------------------------------------------------------------------
+
 Let’s start by reading in the relevant packages
 
 ``` r
@@ -51,20 +71,9 @@ We are going to work with the fiddler crab and latitude data again:
 pie_crab <- lterdatasampler::pie_crab
 ```
 
-# 1. Model comparison
-
-It is common in the field of ecology to have multiple candidate models
-of how a system works. How do we know which is “best”? In this activity
-we will learn two metrics that can help: the Watanabe–Akaike information
-criterion (**WAIC**) and Pareto Smoothed Importance Sampling (**PSIS**).
-
-Both metrics tell us how well the model will predict data it wasn’t
-trained on, which is important for thinking about how well the model
-might predict new data (as in the next section!).
-
 ------------------------------------------------------------------------
 
-In this section, we will run and interpret two multiple regressions to
+In this section, we will run and interpret three multiple regressions to
 try and understand what influences crab body width in mm (`size`). Let’s
 remind ourselves of the columns in the crab data:
 
@@ -76,9 +85,11 @@ colnames(pie_crab)
     [5] "air_temp"      "air_temp_sd"   "water_temp"    "water_temp_sd"
     [9] "name"         
 
-We have multiple variables that may be relevant to crab body size here.
-Mean air and water temperature data, plus the standard deviations of
-each (representing variability and perhaps seasonality in temperature).
+We have multiple temperature variables that may be relevant to crab body
+size here, all measured in degrees Celsius. Mean annual air and water
+temperature data (`air_temp`, `water_temp`), plus the standard
+deviations of each (`air_temp_sd` and `water_temp_sd`, representing
+variability in temperature and perhaps seasonality).
 
 ------------------------------------------------------------------------
 
@@ -349,10 +360,7 @@ Importance Sampling (**PSIS**) and Watanabe–Akaike information criterion
 (**WAIC**). Remember, both of these metrics will tell us about a model’s
 out of sample predictive skill. Lower values = better! A major reason we
 due this is to avoid *overfitting*, where more complex models with lots
-of parameters are un-generalizable to out of sample data (for instance,
-the final panel of the XKCD comic below).
-
-![XKCD_curve_fitting](photos/XKCD_curve_fitting.png)
+of parameters are un-generalizable to out of sample data.
 
 First, let’s look at the PSIS output from the three models. Remember,
 lower values are better, and more complicated models (models with more
@@ -521,7 +529,9 @@ pp_check(m.crab.lat.air.water, type = "scatter_avg")
 
 ------------------------------------------------------------------------
 
-## 1.5 Repeat with the sd of water and air temp instead of mean temp
+## 2. Repeat with the sd of water and air temp instead of mean temp
+
+------------------------------------------------------------------------
 
 Now it’s your turn! In this section, repeat what we just did but with
 the standard deviation (sd) of water and air temperature instead of the
@@ -535,7 +545,7 @@ The three models should be:
 
 ------------------------------------------------------------------------
 
-### Q1.7 Run all three models
+### Q2.1 Run all three models
 
 Run and store all three models. Remember to change the name of 1) the
 data that the model output is stored as and 2) the output file name
@@ -697,7 +707,7 @@ summary(m.crab.lat.airsd.watersd)
 
 ------------------------------------------------------------------------
 
-### Q1.8a Assess all three models
+### Q2.2 Assess all three models
 
 Assess whether each model ran correctly by looking at R hat, the chains,
 and the posterior distributions using the plot() and summary() functions
@@ -706,7 +716,7 @@ correctly in 1-2 sentences per model.
 
 ------------------------------------------------------------------------
 
-### Q1.8b Interpret all three models
+### Q2.3 Interpret all three models
 
 Interpret all three models by answering:
 
@@ -801,7 +811,7 @@ summary(m.crab.lat.airsd.watersd)
 
 ------------------------------------------------------------------------
 
-### Q1.9 How do the models differ in their parameter estimates?
+### Q2.4 How do the models differ in their parameter estimates?
 
 In 2-4 sentences, compare the three models’ estimates of the effect of
 latitude, water temp sd, and air temp sd; did estimates change across
@@ -810,7 +820,7 @@ different from zero?
 
 ------------------------------------------------------------------------
 
-### Q1.10 Calculate and compare PSIS and AIC values for each model
+### Q2.5 Calculate and compare PSIS and AIC values for each model
 
 Calculate and compare the PSIS and AIC values for each model and answer:
 
@@ -934,12 +944,6 @@ TAKE-HOME POINT HERE
 
 ------------------------------------------------------------------------
 
-# 2. Predictions
-
-![StrangePlanet_NathanPyle_weatherForecasting](photos/StrangePlanet_weatherForecasting.jpeg)
-
-------------------------------------------------------------------------
-
 ### Render to PDF
 
 When you have finished, remember to pull, stage, commit, and push with
@@ -952,3 +956,5 @@ GitHub:
 - Push your changes to the remote branch
 
 Then submit the well-labeled PDF on Gradescope. Thanks!
+
+![StrangePlanet_NathanPyle_weatherForecasting](photos/StrangePlanet_weatherForecasting.jpeg)
