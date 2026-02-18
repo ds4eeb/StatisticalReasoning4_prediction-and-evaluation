@@ -196,6 +196,9 @@ and the posterior distributions using the plot() and summary()
 functions. Describe your thought process about whether the model ran
 correctly in 1-2 sentences.
 
+=== ANSWER The Rhat is 1, the chains look overlapping and flat, and the
+posterior distributions look smooth, so it looks good. === END ANSWER
+
 ------------------------------------------------------------------------
 
 #### Q1.2b Interpret the output
@@ -205,6 +208,11 @@ Interpret your model by answering:
 1.  What are the effects of your predictors? Remember to describe the
     effect using the units to make it biologically meaningful.
 2.  Are the effects reasonably different from zero? How do you know?
+
+=== ANSWER effect of latitude is 0.80mm of width/degree of latitude, 95%
+ranges 0.58 to 1.04, so comfortably not zero effect of water_temp is
+0.41mm/degree Celsius, 95% ranges 0.13 to 0.70, so comfortably not zero
+=== END ANSWER
 
 ------------------------------------------------------------------------
 
@@ -254,6 +262,12 @@ summary(m.crab.lat.air)
     and Tail_ESS are effective sample size measures, and Rhat is the potential
     scale reduction factor on split chains (at convergence, Rhat = 1).
 
+``` r
+plot(m.crab.lat.air)
+```
+
+![](README_files/figure-commonmark/unnamed-chunk-8-1.png)
+
 ------------------------------------------------------------------------
 
 #### Q1.3a Assess the output
@@ -262,6 +276,9 @@ Assess whether the model ran correctly by looking at R hat, the chains,
 and the posterior distributions using the plot() and summary()
 functions. Describe your thought process about whether the model ran
 correctly in 1-2 sentences.
+
+=== ANSWER The Rhat is 1, the chains look overlapping and flat, and the
+posterior distributions look smooth, so it looks good. === END ANSWER
 
 ------------------------------------------------------------------------
 
@@ -272,6 +289,11 @@ Interpret your model by answering:
 1.  What are the effects of your predictors? Remember to describe the
     effect using the units to make it biologically meaningful.
 2.  Are the effects reasonably different from zero? How do you know?
+
+=== ANSWER effect of latitude is -0.99mm of width/degree of latitude,
+95% ranges -1.66 to -0.33, so comfortably not zero effect of air_temp is
+-1.67mm/degree Celsius, 95% ranges -2.4 to -0.94, so comfortably not
+zero === END ANSWER
 
 ------------------------------------------------------------------------
 
@@ -322,6 +344,12 @@ summary(m.crab.lat.air.water)
     and Tail_ESS are effective sample size measures, and Rhat is the potential
     scale reduction factor on split chains (at convergence, Rhat = 1).
 
+``` r
+plot(m.crab.lat.air.water)
+```
+
+![](README_files/figure-commonmark/unnamed-chunk-10-1.png)
+
 ------------------------------------------------------------------------
 
 #### Q1.4a Assess the output
@@ -330,6 +358,9 @@ Assess whether the model ran correctly by looking at R hat, the chains,
 and the posterior distributions using the plot() and summary()
 functions. Describe your thought process about whether the model ran
 correctly in 1-2 sentences.
+
+=== ANSWER The Rhat is 1, the chains look overlapping and flat, and the
+posterior distributions look smooth, so it looks good. === END ANSWER
 
 ------------------------------------------------------------------------
 
@@ -341,6 +372,12 @@ Interpret your model by answering:
     effect using the units to make it biologically meaningful.
 2.  Are the effects reasonably different from zero? How do you know?
 
+=== ANSWER effect of latitude is -1.06mm of width/degree of latitude,
+95% ranges -1.70 to -0.43, so comfortably not zero effect of air_temp is
+-2.41mm/degree Celsius, 95% ranges -3.18 to -1.65, so comfortably not
+zero effect of water_temp is 0.76mm/degree Celsius, 95% ranges 0.47 to
+1.05, so comfortably not zero === END ANSWER
+
 ------------------------------------------------------------------------
 
 #### Q1.5 How do the models differ in their estimates?
@@ -349,6 +386,12 @@ In 2-4 sentences, compare the three models’ estimates of the effect of
 latitude, water temp, and air temp; did estimates change across
 different models? Stay the same? Change in whether or not they are
 different from zero?
+
+=== ANSWER The effect of latitude switched sign from increasing body
+width to decreasing body width (sign became negative) once air_temp was
+put into the model; with only latitude and water_temp, latitude was
+positive. Otherwise, the effects are slightly different but basically
+agree. All model effects are likely different from zero. === END ANSWER
 
 ------------------------------------------------------------------------
 
@@ -483,6 +526,9 @@ waic(m.crab.lat.air.water)
 
 Remember, lower is better!
 
+=== ANSWER size \~ lat + mean water + mean air has the best (lowest)
+WAIC. === END ANSWER
+
 ------------------------------------------------------------------------
 
 Importantly, we want both the PSIS results and the WAIC results to
@@ -496,8 +542,8 @@ Here we will look at some of the ways we can look at the uncertainty
 around model predictions form the “model evaluation” lecture using the
 most complex model with `size ~ latitude + mean water + mean air`.
 
-The `predict_response(interval = "prediction")` function plots the
-prediction interval separately for each predictor, displaying
+The `predict_response(interval = "prediction")` function plots the 95%
+prediction intervals separately for each predictor, displaying
 uncertainty around where the data may lay around the model.
 
 ``` r
@@ -520,7 +566,12 @@ plot(preds)
 
 ![](README_files/figure-commonmark/unnamed-chunk-13-3.png)
 
-`pp_check(type = "dens_overlay")` shows the model predictions \[…\]
+There are a few posterior predictive check plots we can look at. For
+instance, `pp_check(type = "dens_overlay")` shows the probability
+density of the observed data in a heavy line. The thin blue lines show
+the range of probability densities that are expected if you simulate
+from the fitted model’s range of estimated posteriors. We want the thin
+blue lines to align pretty well with the heavy line.
 
 ``` r
 pp_check(m.crab.lat.air.water, type = "dens_overlay")
@@ -528,9 +579,11 @@ pp_check(m.crab.lat.air.water, type = "dens_overlay")
 
 ![](README_files/figure-commonmark/unnamed-chunk-14-1.png)
 
-`pp_check(type = "scatter_avg")` shows the model predictions against the
-data as a scatterplot. Having all of the points along the line would
-indicate very good fit.
+`pp_check(type = "scatter_avg")` shows the observed values on the y axis
+and the average of the predicted values on the x axis using a
+scatterplot. Having all of the points fall along the 1:1 line would
+indicate good fit. Points that fall outside that line can help us
+understand whether there are missing predictors.
 
 ``` r
 pp_check(m.crab.lat.air.water, type = "scatter_avg")
@@ -538,10 +591,13 @@ pp_check(m.crab.lat.air.water, type = "scatter_avg")
 
 ![](README_files/figure-commonmark/unnamed-chunk-15-1.png)
 
-Here, it seems that there is a lot of variation at each site: the model
+Here, it seems that there is a lot of variation at each site: remember,
+each site (which has one value of latitude) has \~30 crabs. The model
 line goes through approximately the middle of each cloud of points,
 which is good, but there is still a lot of unexplained variation at
-seemingly the site level.
+seemingly the site level. This may mean that there are site-specific
+variables that are causing variation in crab size that are not captured
+in this model.
 
 ------------------------------------------------------------------------
 
@@ -719,6 +775,61 @@ summary(m.crab.lat.airsd.watersd)
     and Tail_ESS are effective sample size measures, and Rhat is the potential
     scale reduction factor on split chains (at convergence, Rhat = 1).
 
+``` r
+plot(m.crab.lat.airsd.watersd)
+```
+
+![](README_files/figure-commonmark/unnamed-chunk-22-1.png)
+
+#### size \~ ALL variables - not required for the activity
+
+``` r
+# latitude and air model
+m.crab.allvars <- 
+  brm(data = pie_crab, # Give the model the pie_crab data
+      # Choose a gaussian (normal) distribution
+      family = gaussian,
+      # Specify the model here. 
+      size ~ latitude + air_temp + water_temp + air_temp_sd + water_temp_sd,
+      # Here's where you specify parameters for executing the Markov chains
+      # We're using similar to the defaults, except we set cores to 4 so the analysis runs faster than the default of 1
+      iter = 2000, warmup = 1000, chains = 4, cores = 4,
+      # Setting the "seed" determines which random numbers will get sampled.
+      # In this case, it makes the randomness of the Markov chain runs reproducible 
+      # (so that both of us get the exact same results when running the model)
+      seed = 4,
+      # Save the fitted model object as output - helpful for reloading in the output later
+      file = "temporary/m.crab.allvars")
+```
+
+``` r
+summary(m.crab.allvars)
+```
+
+     Family: gaussian 
+      Links: mu = identity 
+    Formula: size ~ latitude + air_temp + water_temp + air_temp_sd + water_temp_sd 
+       Data: pie_crab (Number of observations: 392) 
+      Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+             total post-warmup draws = 4000
+
+    Regression Coefficients:
+                  Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+    Intercept        77.81     18.34    42.73   114.36 1.00     2263     2516
+    latitude         -1.11      0.35    -1.81    -0.43 1.00     2084     2546
+    air_temp         -2.49      0.41    -3.30    -1.68 1.00     2103     2338
+    water_temp        0.82      0.15     0.53     1.11 1.00     3067     2770
+    air_temp_sd       0.11      0.30    -0.47     0.70 1.00     2464     2669
+    water_temp_sd     0.14      0.16    -0.16     0.45 1.00     2740     2579
+
+    Further Distributional Parameters:
+          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+    sigma     2.68      0.10     2.50     2.88 1.00     3833     2553
+
+    Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+    and Tail_ESS are effective sample size measures, and Rhat is the potential
+    scale reduction factor on split chains (at convergence, Rhat = 1).
+
 ===== END ANSWER
 
 ------------------------------------------------------------------------
@@ -729,6 +840,10 @@ Assess whether each model ran correctly by looking at R hat, the chains,
 and the posterior distributions using the plot() and summary()
 functions. Describe your thought process about whether the model ran
 correctly in 1-2 sentences per model.
+
+=== ANSWER For each model, the Rhat is 1, the chains look overlapping
+and flat, and the posterior distributions look smooth, so it looks good.
+=== END ANSWER
 
 ------------------------------------------------------------------------
 
@@ -834,6 +949,16 @@ latitude, water temp sd, and air temp sd; did estimates change across
 different models? Stay the same? Change in whether or not they are
 different from zero?
 
+=== ANSWER
+
+The effect of latitude changes slightly across all three models and the
+95% CIs never intersect zero, indicating that it is not zero. Water temp
+sd and air temp sd jump around a little in their estimates, but always
+include zero within the 95% CI, so we can conclude that the effect of
+these parameters is likely zero.
+
+=== END ANSWER
+
 ------------------------------------------------------------------------
 
 ### Q2.5 Calculate and compare PSIS and AIC values for each model
@@ -850,9 +975,13 @@ Calculate and compare the PSIS and AIC values for each model and answer:
 
 PSIS:
 
+All Pareto k estimates are good (\<0.7)
+
+The size \~ lat + sd air has the lowers PSIS by a small amount
+
 ``` r
 # Look at "leave one out" results for all three models
-# size ~ lat + mean water
+# size ~ lat + sd water
 loo(m.crab.lat.watersd)
 ```
 
@@ -871,7 +1000,7 @@ loo(m.crab.lat.watersd)
     See help('pareto-k-diagnostic') for details.
 
 ``` r
-# size ~ lat + mean air
+# size ~ lat + sd air
 loo(m.crab.lat.airsd)
 ```
 
@@ -890,7 +1019,7 @@ loo(m.crab.lat.airsd)
     See help('pareto-k-diagnostic') for details.
 
 ``` r
-# size ~ lat + mean water + mean air
+# size ~ lat + sd water + sd air
 loo(m.crab.lat.airsd.watersd)
 ```
 
@@ -910,9 +1039,11 @@ loo(m.crab.lat.airsd.watersd)
 
 WAIC:
 
+The size \~ lat + sd air has the lowers WAIC by a small amount
+
 ``` r
 # Look at "leave one out" results for all three models
-# size ~ lat + mean water
+# size ~ lat + sd water
 waic(m.crab.lat.watersd)
 ```
 
@@ -925,7 +1056,7 @@ waic(m.crab.lat.watersd)
     waic        1934.1 26.6
 
 ``` r
-# size ~ lat + mean air
+# size ~ lat + sd air
 waic(m.crab.lat.airsd)
 ```
 
@@ -938,7 +1069,7 @@ waic(m.crab.lat.airsd)
     waic        1933.1 26.9
 
 ``` r
-# size ~ lat + mean water + mean air
+# size ~ lat + sd water + sd air
 waic(m.crab.lat.airsd.watersd)
 ```
 
@@ -950,13 +1081,10 @@ waic(m.crab.lat.airsd.watersd)
     p_waic         4.6  0.4
     waic        1934.3 26.5
 
-The crab size \~ latitude + air temp sd is marginally the best model.
+The crab size \~ latitude + air temp sd is marginally the best model;
+both PSIS and WAIC are lowest for it.
 
 =====END ANSWER
-
-------------------------------------------------------------------------
-
-TAKE-HOME POINT HERE
 
 ------------------------------------------------------------------------
 
