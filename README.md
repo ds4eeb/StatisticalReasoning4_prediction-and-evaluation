@@ -106,7 +106,7 @@ for each predictor.
 
 ------------------------------------------------------------------------
 
-## 1.2 Run and interpret three multiple regressions with latitude and **mean** temperatures
+## 1.2 Run, assess, and interpret three multiple regressions with latitude and **mean** temperatures
 
 Let’s run three regressions and compare their results. We will start by
 looking at how body size varies with latitude plus each of the mean
@@ -177,7 +177,16 @@ plot(m.crab.lat.water)
 
 ------------------------------------------------------------------------
 
-#### Q1.2 Interpret the output
+#### Q1.2a Assess the output
+
+Assess whether the model ran correctly by looking at R hat, the chains,
+and the posterior distributions using the plot() and summary() functions
+as below. Describe your thought process about whether the model ran
+correctly in 1-2 sentences.
+
+------------------------------------------------------------------------
+
+#### Q1.2b Interpret the output
 
 Interpret your model by answering:
 
@@ -235,7 +244,16 @@ summary(m.crab.lat.air)
 
 ------------------------------------------------------------------------
 
-#### Q1.3 Interpret the output
+#### Q1.3a Assess the output
+
+Assess whether the model ran correctly by looking at R hat, the chains,
+and the posterior distributions using the plot() and summary() functions
+as below. Describe your thought process about whether the model ran
+correctly in 1-2 sentences.
+
+------------------------------------------------------------------------
+
+#### Q1.3b Interpret the output
 
 Interpret your model by answering:
 
@@ -294,7 +312,16 @@ summary(m.crab.lat.air.water)
 
 ------------------------------------------------------------------------
 
-#### Q1.4 Interpret the output
+#### Q1.4a Assess the output
+
+Assess whether the model ran correctly by looking at R hat, the chains,
+and the posterior distributions using the plot() and summary() functions
+as below. Describe your thought process about whether the model ran
+correctly in 1-2 sentences.
+
+------------------------------------------------------------------------
+
+#### Q1.4b Interpret the output
 
 Interpret your model by answering:
 
@@ -445,7 +472,7 @@ waic(m.crab.lat.air.water)
 
 ### Q1.6 Which model has the “best” WAIC value?
 
-Rememeber, lower is better!
+Remember, lower is better!
 
 ------------------------------------------------------------------------
 
@@ -454,7 +481,47 @@ align. In this case, they do, which is a good sign for our models.
 
 ------------------------------------------------------------------------
 
-## 1.4 Repeat with the sd of water and air temp instead of mean temp
+## 1.4 Look at uncertainty around model predictions
+
+Here we will look at some of the ways we can look at the uncertainty
+around model predictions form the “model evaluation” lecture.
+
+``` r
+preds <- ggeffects::predict_response(m.crab.lat.air.water, 
+                            # terms = c("latitude", "air_temp", "water_temp"),
+                            interval = "prediction")
+plot(preds, show_data = TRUE)
+```
+
+    $latitude
+
+![](README_files/figure-commonmark/unnamed-chunk-13-1.png)
+
+
+    $air_temp
+
+![](README_files/figure-commonmark/unnamed-chunk-13-2.png)
+
+
+    $water_temp
+
+![](README_files/figure-commonmark/unnamed-chunk-13-3.png)
+
+``` r
+pp_check(m.crab.lat.air.water, type = "dens_overlay")
+```
+
+![](README_files/figure-commonmark/unnamed-chunk-14-1.png)
+
+``` r
+pp_check(m.crab.lat.air.water, type = "scatter_avg")
+```
+
+![](README_files/figure-commonmark/unnamed-chunk-15-1.png)
+
+------------------------------------------------------------------------
+
+## 1.5 Repeat with the sd of water and air temp instead of mean temp
 
 Now it’s your turn! In this section, repeat what we just did but with
 the standard deviation (sd) of water and air temperature instead of the
@@ -527,7 +594,7 @@ summary(m.crab.lat.watersd)
 plot(m.crab.lat.watersd)
 ```
 
-![](README_files/figure-commonmark/unnamed-chunk-15-1.png)
+![](README_files/figure-commonmark/unnamed-chunk-18-1.png)
 
 ------------------------------------------------------------------------
 
@@ -630,7 +697,16 @@ summary(m.crab.lat.airsd.watersd)
 
 ------------------------------------------------------------------------
 
-### Q1.8 Interpret all three models
+### Q1.8a Assess all three models
+
+Assess whether each model ran correctly by looking at R hat, the chains,
+and the posterior distributions using the plot() and summary() functions
+as below. Describe your thought process about whether the model ran
+correctly in 1-2 sentences per model.
+
+------------------------------------------------------------------------
+
+### Q1.8b Interpret all three models
 
 Interpret all three models by answering:
 
