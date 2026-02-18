@@ -151,8 +151,22 @@ m.crab.lat.water <-
       # (so that both of us get the exact same results when running the model)
       seed = 4,
       # Save the fitted model object as output - helpful for reloading in the output later
-      file = "temporary/m.crab.lat.water")
+      file = "output/m.crab.lat.water")
 ```
+
+    Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
+    using C compiler: ‘Apple clang version 12.0.5 (clang-1205.0.22.9)’
+    using SDK: ‘MacOSX11.3.sdk’
+    clang -arch arm64 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/Rcpp/include/"  -I"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppEigen/include/"  -I"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/BH/include" -I"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/StanHeaders/include/src/"  -I"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/StanHeaders/include/"  -I"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppParallel/include/"  -I"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DUSE_STANC3 -DSTRICT_R_HEADERS  -DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION  -D_HAS_AUTO_PTR_ETC=0  -include '/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/opt/R/arm64/include    -fPIC  -falign-functions=64 -Wall -g -O2  -c foo.c -o foo.o
+    In file included from <built-in>:1:
+    In file included from /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp:22:
+    In file included from /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppEigen/include/Eigen/Dense:1:
+    In file included from /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppEigen/include/Eigen/Core:19:
+    /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:679:10: fatal error: 'cmath' file not found
+    #include <cmath>
+             ^~~~~~~
+    1 error generated.
+    make: *** [foo.o] Error 1
 
 Now look at the output:
 
@@ -196,9 +210,6 @@ and the posterior distributions using the plot() and summary()
 functions. Describe your thought process about whether the model ran
 correctly in 1-2 sentences.
 
-=== ANSWER The Rhat is 1, the chains look overlapping and flat, and the
-posterior distributions look smooth, so it looks good. === END ANSWER
-
 ------------------------------------------------------------------------
 
 #### Q1.2b Interpret the output
@@ -208,11 +219,6 @@ Interpret your model by answering:
 1.  What are the effects of your predictors? Remember to describe the
     effect using the units to make it biologically meaningful.
 2.  Are the effects reasonably different from zero? How do you know?
-
-=== ANSWER effect of latitude is 0.80mm of width/degree of latitude, 95%
-ranges 0.58 to 1.04, so comfortably not zero effect of water_temp is
-0.41mm/degree Celsius, 95% ranges 0.13 to 0.70, so comfortably not zero
-=== END ANSWER
 
 ------------------------------------------------------------------------
 
@@ -234,8 +240,22 @@ m.crab.lat.air <-
       # (so that both of us get the exact same results when running the model)
       seed = 4,
       # Save the fitted model object as output - helpful for reloading in the output later
-      file = "temporary/m.crab.lat.air")
+      file = "output/m.crab.lat.air")
 ```
+
+    Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
+    using C compiler: ‘Apple clang version 12.0.5 (clang-1205.0.22.9)’
+    using SDK: ‘MacOSX11.3.sdk’
+    clang -arch arm64 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/Rcpp/include/"  -I"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppEigen/include/"  -I"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/BH/include" -I"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/StanHeaders/include/src/"  -I"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/StanHeaders/include/"  -I"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppParallel/include/"  -I"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DUSE_STANC3 -DSTRICT_R_HEADERS  -DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION  -D_HAS_AUTO_PTR_ETC=0  -include '/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/opt/R/arm64/include    -fPIC  -falign-functions=64 -Wall -g -O2  -c foo.c -o foo.o
+    In file included from <built-in>:1:
+    In file included from /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp:22:
+    In file included from /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppEigen/include/Eigen/Dense:1:
+    In file included from /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppEigen/include/Eigen/Core:19:
+    /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:679:10: fatal error: 'cmath' file not found
+    #include <cmath>
+             ^~~~~~~
+    1 error generated.
+    make: *** [foo.o] Error 1
 
 ``` r
 summary(m.crab.lat.air)
@@ -277,9 +297,6 @@ and the posterior distributions using the plot() and summary()
 functions. Describe your thought process about whether the model ran
 correctly in 1-2 sentences.
 
-=== ANSWER The Rhat is 1, the chains look overlapping and flat, and the
-posterior distributions look smooth, so it looks good. === END ANSWER
-
 ------------------------------------------------------------------------
 
 #### Q1.3b Interpret the output
@@ -289,11 +306,6 @@ Interpret your model by answering:
 1.  What are the effects of your predictors? Remember to describe the
     effect using the units to make it biologically meaningful.
 2.  Are the effects reasonably different from zero? How do you know?
-
-=== ANSWER effect of latitude is -0.99mm of width/degree of latitude,
-95% ranges -1.66 to -0.33, so comfortably not zero effect of air_temp is
--1.67mm/degree Celsius, 95% ranges -2.4 to -0.94, so comfortably not
-zero === END ANSWER
 
 ------------------------------------------------------------------------
 
@@ -315,8 +327,22 @@ m.crab.lat.air.water <-
       # (so that both of us get the exact same results when running the model)
       seed = 4,
       # Save the fitted model object as output - helpful for reloading in the output later
-      file = "temporary/m.crab.lat.air.water")
+      file = "output/m.crab.lat.air.water")
 ```
+
+    Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
+    using C compiler: ‘Apple clang version 12.0.5 (clang-1205.0.22.9)’
+    using SDK: ‘MacOSX11.3.sdk’
+    clang -arch arm64 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/Rcpp/include/"  -I"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppEigen/include/"  -I"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/BH/include" -I"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/StanHeaders/include/src/"  -I"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/StanHeaders/include/"  -I"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppParallel/include/"  -I"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DUSE_STANC3 -DSTRICT_R_HEADERS  -DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION  -D_HAS_AUTO_PTR_ETC=0  -include '/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/opt/R/arm64/include    -fPIC  -falign-functions=64 -Wall -g -O2  -c foo.c -o foo.o
+    In file included from <built-in>:1:
+    In file included from /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp:22:
+    In file included from /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppEigen/include/Eigen/Dense:1:
+    In file included from /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppEigen/include/Eigen/Core:19:
+    /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:679:10: fatal error: 'cmath' file not found
+    #include <cmath>
+             ^~~~~~~
+    1 error generated.
+    make: *** [foo.o] Error 1
 
 ``` r
 summary(m.crab.lat.air.water)
@@ -359,9 +385,6 @@ and the posterior distributions using the plot() and summary()
 functions. Describe your thought process about whether the model ran
 correctly in 1-2 sentences.
 
-=== ANSWER The Rhat is 1, the chains look overlapping and flat, and the
-posterior distributions look smooth, so it looks good. === END ANSWER
-
 ------------------------------------------------------------------------
 
 #### Q1.4b Interpret the output
@@ -372,12 +395,6 @@ Interpret your model by answering:
     effect using the units to make it biologically meaningful.
 2.  Are the effects reasonably different from zero? How do you know?
 
-=== ANSWER effect of latitude is -1.06mm of width/degree of latitude,
-95% ranges -1.70 to -0.43, so comfortably not zero effect of air_temp is
--2.41mm/degree Celsius, 95% ranges -3.18 to -1.65, so comfortably not
-zero effect of water_temp is 0.76mm/degree Celsius, 95% ranges 0.47 to
-1.05, so comfortably not zero === END ANSWER
-
 ------------------------------------------------------------------------
 
 #### Q1.5 How do the models differ in their estimates?
@@ -387,11 +404,14 @@ latitude, water temp, and air temp; did estimates change across
 different models? Stay the same? Change in whether or not they are
 different from zero?
 
-=== ANSWER The effect of latitude switched sign from increasing body
-width to decreasing body width (sign became negative) once air_temp was
-put into the model; with only latitude and water_temp, latitude was
-positive. Otherwise, the effects are slightly different but basically
-agree. All model effects are likely different from zero. === END ANSWER
+------------------------------------------------------------------------
+
+#### Q1.6 Why do you think a variable’s sign changed?
+
+You should have noticed the change in sign for a variable. In 1-2
+sentences, and in the context of your knowledge about causal inference
+from DAGs from last week, describe why you think the variable may have
+changed signs (hint: remember pipes?).
 
 ------------------------------------------------------------------------
 
@@ -409,6 +429,7 @@ of parameters are un-generalizable to out of sample data.
 First, let’s look at the PSIS output from the three models. Remember,
 lower values are better, and more complicated models (models with more
 parameters) will be “punished”, since more parameters risks overfitting.
+The PSIS values will be in the `Estimate` column in the third row.
 
 ``` r
 # Look at "leave one out" results for all three models
@@ -522,12 +543,9 @@ waic(m.crab.lat.air.water)
     p_waic         5.0  0.5
     waic        1890.6 28.4
 
-### Q1.6 Which model has the “best” WAIC value?
+### Q1.7 Which model has the “best” WAIC value?
 
 Remember, lower is better!
-
-=== ANSWER size \~ lat + mean water + mean air has the best (lowest)
-WAIC. === END ANSWER
 
 ------------------------------------------------------------------------
 
@@ -622,215 +640,15 @@ The three models should be:
 Run and store all three models. Remember to change the name of 1) the
 data that the model output is stored as and 2) the output file name
 
-===== START ANSWER
-
 #### size \~ latitude + water temp sd
-
-``` r
-# latitude and water model
-m.crab.lat.watersd <- 
-  brm(data = pie_crab, # Give the model the pie_crab data
-      # Choose a gaussian (normal) distribution
-      family = gaussian,
-      # Specify the model here. 
-      size ~ latitude + water_temp_sd,
-      # Here's where you specify parameters for executing the Markov chains
-      # We're using similar to the defaults, except we set cores to 4 so the analysis runs faster than the default of 1
-      iter = 2000, warmup = 1000, chains = 4, cores = 4,
-      # Setting the "seed" determines which random numbers will get sampled.
-      # In this case, it makes the randomness of the Markov chain runs reproducible 
-      # (so that both of us get the exact same results when running the model)
-      seed = 4,
-      # Save the fitted model object as output - helpful for reloading in the output later
-      file = "temporary/m.crab.lat.watersd")
-```
-
-Now look at the output:
-
-``` r
-summary(m.crab.lat.watersd)
-```
-
-     Family: gaussian 
-      Links: mu = identity 
-    Formula: size ~ latitude + water_temp_sd 
-       Data: pie_crab (Number of observations: 392) 
-      Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
-             total post-warmup draws = 4000
-
-    Regression Coefficients:
-                  Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-    Intercept        -3.75      1.57    -6.85    -0.62 1.00     4342     3104
-    latitude          0.48      0.03     0.42     0.55 1.00     4924     3080
-    water_temp_sd     0.02      0.13    -0.23     0.27 1.00     3665     2473
-
-    Further Distributional Parameters:
-          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-    sigma     2.84      0.10     2.65     3.05 1.00     4179     2744
-
-    Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
-    and Tail_ESS are effective sample size measures, and Rhat is the potential
-    scale reduction factor on split chains (at convergence, Rhat = 1).
-
-``` r
-plot(m.crab.lat.watersd)
-```
-
-![](README_files/figure-commonmark/unnamed-chunk-18-1.png)
 
 ------------------------------------------------------------------------
 
 #### size \~ latitude + air temp sd
 
-``` r
-# latitude and air model
-m.crab.lat.airsd <- 
-  brm(data = pie_crab, # Give the model the pie_crab data
-      # Choose a gaussian (normal) distribution
-      family = gaussian,
-      # Specify the model here. 
-      size ~ latitude + air_temp_sd,
-      # Here's where you specify parameters for executing the Markov chains
-      # We're using similar to the defaults, except we set cores to 4 so the analysis runs faster than the default of 1
-      iter = 2000, warmup = 1000, chains = 4, cores = 4,
-      # Setting the "seed" determines which random numbers will get sampled.
-      # In this case, it makes the randomness of the Markov chain runs reproducible 
-      # (so that both of us get the exact same results when running the model)
-      seed = 4,
-      # Save the fitted model object as output - helpful for reloading in the output later
-      file = "temporary/m.crab.lat.airsd")
-```
-
-``` r
-summary(m.crab.lat.airsd)
-```
-
-     Family: gaussian 
-      Links: mu = identity 
-    Formula: size ~ latitude + air_temp_sd 
-       Data: pie_crab (Number of observations: 392) 
-      Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
-             total post-warmup draws = 4000
-
-    Regression Coefficients:
-                Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-    Intercept      -3.20      1.38    -5.88    -0.55 1.00     5013     3188
-    latitude        0.53      0.06     0.42     0.64 1.00     2326     2388
-    air_temp_sd    -0.24      0.24    -0.70     0.24 1.00     2367     2401
-
-    Further Distributional Parameters:
-          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-    sigma     2.84      0.10     2.65     3.05 1.00     3394     2678
-
-    Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
-    and Tail_ESS are effective sample size measures, and Rhat is the potential
-    scale reduction factor on split chains (at convergence, Rhat = 1).
-
 ------------------------------------------------------------------------
 
 #### size \~ latitude + water temp sd + air temp sd
-
-``` r
-# latitude and air model
-m.crab.lat.airsd.watersd <- 
-  brm(data = pie_crab, # Give the model the pie_crab data
-      # Choose a gaussian (normal) distribution
-      family = gaussian,
-      # Specify the model here. 
-      size ~ latitude + air_temp_sd + water_temp_sd,
-      # Here's where you specify parameters for executing the Markov chains
-      # We're using similar to the defaults, except we set cores to 4 so the analysis runs faster than the default of 1
-      iter = 2000, warmup = 1000, chains = 4, cores = 4,
-      # Setting the "seed" determines which random numbers will get sampled.
-      # In this case, it makes the randomness of the Markov chain runs reproducible 
-      # (so that both of us get the exact same results when running the model)
-      seed = 4,
-      # Save the fitted model object as output - helpful for reloading in the output later
-      file = "temporary/m.crab.lat.airsd.watersd")
-```
-
-``` r
-summary(m.crab.lat.airsd.watersd)
-```
-
-     Family: gaussian 
-      Links: mu = identity 
-    Formula: size ~ latitude + air_temp_sd + water_temp_sd 
-       Data: pie_crab (Number of observations: 392) 
-      Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
-             total post-warmup draws = 4000
-
-    Regression Coefficients:
-                  Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-    Intercept        -3.94      1.56    -7.11    -0.89 1.00     3817     3323
-    latitude          0.56      0.07     0.43     0.69 1.00     2169     2421
-    air_temp_sd      -0.42      0.31    -1.00     0.20 1.00     1936     2214
-    water_temp_sd     0.16      0.16    -0.17     0.47 1.00     2423     2358
-
-    Further Distributional Parameters:
-          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-    sigma     2.84      0.10     2.66     3.04 1.00     3267     2772
-
-    Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
-    and Tail_ESS are effective sample size measures, and Rhat is the potential
-    scale reduction factor on split chains (at convergence, Rhat = 1).
-
-``` r
-plot(m.crab.lat.airsd.watersd)
-```
-
-![](README_files/figure-commonmark/unnamed-chunk-22-1.png)
-
-#### size \~ ALL variables - not required for the activity
-
-``` r
-# latitude and air model
-m.crab.allvars <- 
-  brm(data = pie_crab, # Give the model the pie_crab data
-      # Choose a gaussian (normal) distribution
-      family = gaussian,
-      # Specify the model here. 
-      size ~ latitude + air_temp + water_temp + air_temp_sd + water_temp_sd,
-      # Here's where you specify parameters for executing the Markov chains
-      # We're using similar to the defaults, except we set cores to 4 so the analysis runs faster than the default of 1
-      iter = 2000, warmup = 1000, chains = 4, cores = 4,
-      # Setting the "seed" determines which random numbers will get sampled.
-      # In this case, it makes the randomness of the Markov chain runs reproducible 
-      # (so that both of us get the exact same results when running the model)
-      seed = 4,
-      # Save the fitted model object as output - helpful for reloading in the output later
-      file = "temporary/m.crab.allvars")
-```
-
-``` r
-summary(m.crab.allvars)
-```
-
-     Family: gaussian 
-      Links: mu = identity 
-    Formula: size ~ latitude + air_temp + water_temp + air_temp_sd + water_temp_sd 
-       Data: pie_crab (Number of observations: 392) 
-      Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
-             total post-warmup draws = 4000
-
-    Regression Coefficients:
-                  Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-    Intercept        77.81     18.34    42.73   114.36 1.00     2263     2516
-    latitude         -1.11      0.35    -1.81    -0.43 1.00     2084     2546
-    air_temp         -2.49      0.41    -3.30    -1.68 1.00     2103     2338
-    water_temp        0.82      0.15     0.53     1.11 1.00     3067     2770
-    air_temp_sd       0.11      0.30    -0.47     0.70 1.00     2464     2669
-    water_temp_sd     0.14      0.16    -0.16     0.45 1.00     2740     2579
-
-    Further Distributional Parameters:
-          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-    sigma     2.68      0.10     2.50     2.88 1.00     3833     2553
-
-    Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
-    and Tail_ESS are effective sample size measures, and Rhat is the potential
-    scale reduction factor on split chains (at convergence, Rhat = 1).
-
-===== END ANSWER
 
 ------------------------------------------------------------------------
 
@@ -840,10 +658,6 @@ Assess whether each model ran correctly by looking at R hat, the chains,
 and the posterior distributions using the plot() and summary()
 functions. Describe your thought process about whether the model ran
 correctly in 1-2 sentences per model.
-
-=== ANSWER For each model, the Rhat is 1, the chains look overlapping
-and flat, and the posterior distributions look smooth, so it looks good.
-=== END ANSWER
 
 ------------------------------------------------------------------------
 
@@ -857,89 +671,6 @@ Interpret all three models by answering:
 
 Please write 2-3 sentences for each model
 
-=== START ANSWER
-
-Looks like all SD estimates’ 95% CIs overlap zero… May need to rethink
-this as an example (or maybe not!)
-
-``` r
-summary(m.crab.lat.watersd)
-```
-
-     Family: gaussian 
-      Links: mu = identity 
-    Formula: size ~ latitude + water_temp_sd 
-       Data: pie_crab (Number of observations: 392) 
-      Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
-             total post-warmup draws = 4000
-
-    Regression Coefficients:
-                  Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-    Intercept        -3.75      1.57    -6.85    -0.62 1.00     4342     3104
-    latitude          0.48      0.03     0.42     0.55 1.00     4924     3080
-    water_temp_sd     0.02      0.13    -0.23     0.27 1.00     3665     2473
-
-    Further Distributional Parameters:
-          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-    sigma     2.84      0.10     2.65     3.05 1.00     4179     2744
-
-    Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
-    and Tail_ESS are effective sample size measures, and Rhat is the potential
-    scale reduction factor on split chains (at convergence, Rhat = 1).
-
-``` r
-summary(m.crab.lat.airsd)
-```
-
-     Family: gaussian 
-      Links: mu = identity 
-    Formula: size ~ latitude + air_temp_sd 
-       Data: pie_crab (Number of observations: 392) 
-      Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
-             total post-warmup draws = 4000
-
-    Regression Coefficients:
-                Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-    Intercept      -3.20      1.38    -5.88    -0.55 1.00     5013     3188
-    latitude        0.53      0.06     0.42     0.64 1.00     2326     2388
-    air_temp_sd    -0.24      0.24    -0.70     0.24 1.00     2367     2401
-
-    Further Distributional Parameters:
-          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-    sigma     2.84      0.10     2.65     3.05 1.00     3394     2678
-
-    Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
-    and Tail_ESS are effective sample size measures, and Rhat is the potential
-    scale reduction factor on split chains (at convergence, Rhat = 1).
-
-``` r
-summary(m.crab.lat.airsd.watersd)
-```
-
-     Family: gaussian 
-      Links: mu = identity 
-    Formula: size ~ latitude + air_temp_sd + water_temp_sd 
-       Data: pie_crab (Number of observations: 392) 
-      Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
-             total post-warmup draws = 4000
-
-    Regression Coefficients:
-                  Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-    Intercept        -3.94      1.56    -7.11    -0.89 1.00     3817     3323
-    latitude          0.56      0.07     0.43     0.69 1.00     2169     2421
-    air_temp_sd      -0.42      0.31    -1.00     0.20 1.00     1936     2214
-    water_temp_sd     0.16      0.16    -0.17     0.47 1.00     2423     2358
-
-    Further Distributional Parameters:
-          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-    sigma     2.84      0.10     2.66     3.04 1.00     3267     2772
-
-    Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
-    and Tail_ESS are effective sample size measures, and Rhat is the potential
-    scale reduction factor on split chains (at convergence, Rhat = 1).
-
-===== END ANSWER
-
 ------------------------------------------------------------------------
 
 ### Q2.4 How do the models differ in their parameter estimates?
@@ -948,16 +679,6 @@ In 2-4 sentences, compare the three models’ estimates of the effect of
 latitude, water temp sd, and air temp sd; did estimates change across
 different models? Stay the same? Change in whether or not they are
 different from zero?
-
-=== ANSWER
-
-The effect of latitude changes slightly across all three models and the
-95% CIs never intersect zero, indicating that it is not zero. Water temp
-sd and air temp sd jump around a little in their estimates, but always
-include zero within the 95% CI, so we can conclude that the effect of
-these parameters is likely zero.
-
-=== END ANSWER
 
 ------------------------------------------------------------------------
 
@@ -970,121 +691,6 @@ Calculate and compare the PSIS and AIC values for each model and answer:
 3.  Which model has the lowest AIC?
 4.  Do PSIS and AIC values agree on which model has the best out of
     sample prediction?
-
-=====ANSWER
-
-PSIS:
-
-All Pareto k estimates are good (\<0.7)
-
-The size \~ lat + sd air has the lowers PSIS by a small amount
-
-``` r
-# Look at "leave one out" results for all three models
-# size ~ lat + sd water
-loo(m.crab.lat.watersd)
-```
-
-
-    Computed from 4000 by 392 log-likelihood matrix.
-
-             Estimate   SE
-    elpd_loo   -967.1 13.3
-    p_loo         3.7  0.3
-    looic      1934.1 26.6
-    ------
-    MCSE of elpd_loo is 0.0.
-    MCSE and ESS estimates assume MCMC draws (r_eff in [0.9, 1.2]).
-
-    All Pareto k estimates are good (k < 0.7).
-    See help('pareto-k-diagnostic') for details.
-
-``` r
-# size ~ lat + sd air
-loo(m.crab.lat.airsd)
-```
-
-
-    Computed from 4000 by 392 log-likelihood matrix.
-
-             Estimate   SE
-    elpd_loo   -966.6 13.4
-    p_loo         3.5  0.3
-    looic      1933.1 26.9
-    ------
-    MCSE of elpd_loo is 0.0.
-    MCSE and ESS estimates assume MCMC draws (r_eff in [0.6, 1.1]).
-
-    All Pareto k estimates are good (k < 0.7).
-    See help('pareto-k-diagnostic') for details.
-
-``` r
-# size ~ lat + sd water + sd air
-loo(m.crab.lat.airsd.watersd)
-```
-
-
-    Computed from 4000 by 392 log-likelihood matrix.
-
-             Estimate   SE
-    elpd_loo   -967.1 13.2
-    p_loo         4.6  0.4
-    looic      1934.3 26.5
-    ------
-    MCSE of elpd_loo is 0.0.
-    MCSE and ESS estimates assume MCMC draws (r_eff in [0.5, 1.1]).
-
-    All Pareto k estimates are good (k < 0.7).
-    See help('pareto-k-diagnostic') for details.
-
-WAIC:
-
-The size \~ lat + sd air has the lowers WAIC by a small amount
-
-``` r
-# Look at "leave one out" results for all three models
-# size ~ lat + sd water
-waic(m.crab.lat.watersd)
-```
-
-
-    Computed from 4000 by 392 log-likelihood matrix.
-
-              Estimate   SE
-    elpd_waic   -967.1 13.3
-    p_waic         3.7  0.3
-    waic        1934.1 26.6
-
-``` r
-# size ~ lat + sd air
-waic(m.crab.lat.airsd)
-```
-
-
-    Computed from 4000 by 392 log-likelihood matrix.
-
-              Estimate   SE
-    elpd_waic   -966.6 13.4
-    p_waic         3.5  0.3
-    waic        1933.1 26.9
-
-``` r
-# size ~ lat + sd water + sd air
-waic(m.crab.lat.airsd.watersd)
-```
-
-
-    Computed from 4000 by 392 log-likelihood matrix.
-
-              Estimate   SE
-    elpd_waic   -967.1 13.2
-    p_waic         4.6  0.4
-    waic        1934.3 26.5
-
-The crab size \~ latitude + air temp sd is marginally the best model;
-both PSIS and WAIC are lowest for it.
-
-=====END ANSWER
 
 ------------------------------------------------------------------------
 
