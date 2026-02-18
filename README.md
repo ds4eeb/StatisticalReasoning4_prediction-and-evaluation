@@ -38,7 +38,7 @@ ways:
 By making models, we are trying to approximate the processes that affect
 things in a system. It’s important to know how well our models are
 actually aligning with reality though. If we are not careful, we may
-“overfit” our models. Overfitting is when our model fits the data too
+“overfit” our models. *Overfitting* is when our model fits the data too
 closely, usually because we added too many parameters, which explains
 the data well but makes the model very bad at predicting future data
 (for instance, the final panel of the XKCD comic below).
@@ -74,8 +74,9 @@ pie_crab <- lterdatasampler::pie_crab
 ------------------------------------------------------------------------
 
 In this section, we will run and interpret three multiple regressions to
-try and understand what influences crab body width in mm (`size`). Let’s
-remind ourselves of the columns in the crab data:
+try and understand what influences crab body width in mm (`size`). These
+are data from crabs (\~30 per site) collected from sites from Florida to
+Massachusetts. Let’s remind ourselves of the columns in the crab data:
 
 ``` r
 colnames(pie_crab)
@@ -101,23 +102,23 @@ for each predictor.
 
 ------------------------------------------------------------------------
 
-### Q1.1a How might *mean* **water** temperature affect crab size?
+### Q1.1a How might *mean* annual *water* temperature affect crab size?
 
 ------------------------------------------------------------------------
 
-### Q1.1b How might *mean* **air** temperature affect crab size?
+### Q1.1b How might *mean* annual *air* temperature affect crab size?
 
 ------------------------------------------------------------------------
 
-### Q1.1c How might the *sd* of **water** temperature affect crab size?
+### Q1.1c How might the *sd* (variability) of *water* temperature affect crab size?
 
 ------------------------------------------------------------------------
 
-### Q1.1d How might the *sd* of **air** temperature affect crab size?
+### Q1.1d How might the *sd* (variability) of *air* temperature affect crab size?
 
 ------------------------------------------------------------------------
 
-## 1.2 Run, assess, and interpret three multiple regressions with latitude and **mean** temperatures
+## 1.2 Run, assess, and interpret three multiple regressions with latitude and *mean* temperatures
 
 Let’s run three regressions and compare their results. We will start by
 looking at how body size varies with latitude plus each of the mean
@@ -191,8 +192,8 @@ plot(m.crab.lat.water)
 #### Q1.2a Assess the output
 
 Assess whether the model ran correctly by looking at R hat, the chains,
-and the posterior distributions using the plot() and summary() functions
-as below. Describe your thought process about whether the model ran
+and the posterior distributions using the plot() and summary()
+functions. Describe your thought process about whether the model ran
 correctly in 1-2 sentences.
 
 ------------------------------------------------------------------------
@@ -258,8 +259,8 @@ summary(m.crab.lat.air)
 #### Q1.3a Assess the output
 
 Assess whether the model ran correctly by looking at R hat, the chains,
-and the posterior distributions using the plot() and summary() functions
-as below. Describe your thought process about whether the model ran
+and the posterior distributions using the plot() and summary()
+functions. Describe your thought process about whether the model ran
 correctly in 1-2 sentences.
 
 ------------------------------------------------------------------------
@@ -326,8 +327,8 @@ summary(m.crab.lat.air.water)
 #### Q1.4a Assess the output
 
 Assess whether the model ran correctly by looking at R hat, the chains,
-and the posterior distributions using the plot() and summary() functions
-as below. Describe your thought process about whether the model ran
+and the posterior distributions using the plot() and summary()
+functions. Describe your thought process about whether the model ran
 correctly in 1-2 sentences.
 
 ------------------------------------------------------------------------
@@ -428,11 +429,11 @@ The first thing to look for to assess the leave one out method is the
 Pareto k estimate. For us, it gives the helpful message:
 `All Pareto k estimates are good (k < 0.7)`.
 
-The last row is our PSIS value. Remember, lower = better. As we can see,
-the `size ~ latitude + mean water + mean air` model had the lowers PSIS
-value, despite having the most parameters. This indicates that the extra
-parameter made up for the punishment by adding much more predictive
-power.
+The last row in each table’s output is our PSIS value. Remember, lower =
+better. As we can see, the `size ~ latitude + mean water + mean air`
+model had the lowers PSIS value, despite having the most parameters.
+This indicates that the extra parameter made up for the punishment by
+adding much more predictive power.
 
 ------------------------------------------------------------------------
 
@@ -492,13 +493,17 @@ align. In this case, they do, which is a good sign for our models.
 ## 1.4 Look at uncertainty around model predictions
 
 Here we will look at some of the ways we can look at the uncertainty
-around model predictions form the “model evaluation” lecture.
+around model predictions form the “model evaluation” lecture using the
+most complex model with `size ~ latitude + mean water + mean air`.
+
+The `predict_response(interval = "prediction")` function plots the
+prediction interval separately for each predictor, displaying
+uncertainty around where the data may lay around the model.
 
 ``` r
 preds <- ggeffects::predict_response(m.crab.lat.air.water, 
-                            # terms = c("latitude", "air_temp", "water_temp"),
                             interval = "prediction")
-plot(preds, show_data = TRUE)
+plot(preds)
 ```
 
     $latitude
@@ -515,17 +520,28 @@ plot(preds, show_data = TRUE)
 
 ![](README_files/figure-commonmark/unnamed-chunk-13-3.png)
 
+`pp_check(type = "dens_overlay")` shows the model predictions \[…\]
+
 ``` r
 pp_check(m.crab.lat.air.water, type = "dens_overlay")
 ```
 
 ![](README_files/figure-commonmark/unnamed-chunk-14-1.png)
 
+`pp_check(type = "scatter_avg")` shows the model predictions against the
+data as a scatterplot. Having all of the points along the line would
+indicate very good fit.
+
 ``` r
 pp_check(m.crab.lat.air.water, type = "scatter_avg")
 ```
 
 ![](README_files/figure-commonmark/unnamed-chunk-15-1.png)
+
+Here, it seems that there is a lot of variation at each site: the model
+line goes through approximately the middle of each cloud of points,
+which is good, but there is still a lot of unexplained variation at
+seemingly the site level.
 
 ------------------------------------------------------------------------
 
@@ -710,8 +726,8 @@ summary(m.crab.lat.airsd.watersd)
 ### Q2.2 Assess all three models
 
 Assess whether each model ran correctly by looking at R hat, the chains,
-and the posterior distributions using the plot() and summary() functions
-as below. Describe your thought process about whether the model ran
+and the posterior distributions using the plot() and summary()
+functions. Describe your thought process about whether the model ran
 correctly in 1-2 sentences per model.
 
 ------------------------------------------------------------------------
